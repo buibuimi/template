@@ -1,0 +1,19 @@
+void set()
+{
+    for(int i=0;i<=m;i++)
+        parent[i]=i;
+}//最初每个数字都单独一个结点,没有父类没有子类.
+int find(int a)
+{
+    if(parent[a]==a)
+        return a;
+    else
+        return parent[a]=find(parent[a]);
+}//寻找父点(即根节点)
+void Union(int a,int b)
+{
+    int t1=find(a);
+    int t2=find(b);
+    if(t1!=t2)
+        parent[t2]=t1;
+}//将输入的一串数字组合成一条边,附上唯一根节点.
