@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+const int maxn=30000+10;
+int fa[maxn],n,m,k,ans,t;
+void init(int n)
+{
+    for(int i=0;i<n;i++)
+    {
+        fa[i]=i;
+    }
+}
+int find_fa(int x)
+{
+    return fa[x]=(fa[x]==x?x:find_fa(fa[x]));
+}
+void unio(int a,int b)
+{
+    int q=find_fa(a);
+    int p=find_fa(b);
+    if(p!=q)
+    {
+        fa[p]=q;
+    }
+}
+
+int main()
+{
+    while(cin>>n>>m)
+    {
+        if(n==0&&m==0)
+        {
+            return 0;
+        }
+        init (n);
+        for(int i=0;i<m;i++)
+        {
+            cin>>k;
+            vector<int >a;
+            for(int i=0;i<k;i++)
+            {
+                cin>>t;
+                a.push_back(t);
+            }
+            for(int j=1;j<k;j++)
+            {
+                unio(a[j-1],a[j]);
+            }
+        }
+        ans=0;
+        for(int i=0;i<n;i++)
+        {
+            if(find_fa(fa[0])==find_fa(fa[i]))ans++;
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}
