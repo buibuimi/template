@@ -1,0 +1,49 @@
+//Manacher算法：
+#include  <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+const int maxn = 1e5 + 10 ;
+char Ma[maxn << 1] ;
+int Mp[maxn << 1] ;
+void Manacher(string s , int len)
+{
+    int l = 0 ;
+    Ma[l++] = '$' ;
+    Ma[l++] = '#' ;
+    for (int i = 0 ; i < len ; ++i)
+    {
+        Ma[l++] = s[i] ;
+        Ma[l++] = '#' ;
+    }
+    Ma[l] = 0 ;
+    int mx = 0 , id = 0 ;
+    for (int i = 0 ; i < l ; ++i)
+    {
+        Mp[i] = mx > i ? min (Mp[2 * id - i] , mx - i) : 1 ;
+        while (Ma[i + Mp[i]] == Ma[i - Mp[i]])
+            ++Mp[i] ;
+        if (i + Mp[i] > mx)
+        {
+            mx = i + Mp[i] ;
+            id = i ;
+        }
+    }
+}
+int main ()
+{
+        string str;
+        getline(cin,str);
+        int p=str.size();
+        str+=str;
+        LL len=str.size();
+        Manacher(str,len);
+        LL ans=0;
+        for(int i=0;i<len*2+2;i++)
+        {
+            if(Mp[i]-1>ans)ans=Mp[i]-1;
+        }
+        if(ans>p)ans=p;
+        cout<<ans<<endl;
+        return 0;
+}
+//注释：Mp[i]是以Ma[i]字符为中心的最长回文字符串长度；
