@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn=1e5+10;
+int tot=0;
+int trie[maxn][26],sum[maxn];
+void insert(string str)//编号，a~z分别用0~25表示(编号二)，然后跟据输入顺序编号（编号一）；
+{
+  int root=0;
+  int len=str.size();
+  for(int i=0;i<len;i++)
+  {
+    int id=str[i]-'a';
+    if(!trie[root][id])
+    {
+      trie[root][id]=++tot;
+    }
+    root=trie[root][id];
+    sum[root]++;
+  }
+}
+int find(string str)//查询
+{
+  int len=str.size();
+  int root=0;
+  for(int i=0;i<len;i++)
+  {
+    int id=str[i]-'a';
+    if(!trie[root][id])return 0;
+    root=trie[root][id];
+  }
+  return sum[root];
+}
+int main()
+{
+  int n;
+  string str;
+  cin>>n;
+  for(int i=0;i<n;i++)
+  {
+    cin>>str;
+    insert(str);
+  }
+  cin>>n;
+  for(int i=0;i<n;i++)
+  {
+    cin>>str;
+    cout<<find(str)<<endl;
+  }
+  return 0;
+}
